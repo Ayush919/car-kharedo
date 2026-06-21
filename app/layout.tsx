@@ -10,6 +10,9 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://car-kharedo.vercel.app/";
+
 export const metadata: Metadata = {
   title: {
     default: "carKharedo - Buy & Sell Used Cars",
@@ -31,10 +34,11 @@ export const metadata: Metadata = {
     siteName: "carKharedo",
     locale: "en_IN",
     type: "website",
+    url: baseUrl,
   },
   twitter: {
     card: "summary_large_image",
-    creator: "@carkharedo", // Replace with your Twitter handle
+    creator: "@carkharedo",
   },
 };
 

@@ -11,6 +11,10 @@ interface Props {
   params: { id: string };
 }
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://www.carkharedo.com");
+
 async function getCar(id: string): Promise<ICar | null> {
   try {
     await connectDB();
@@ -51,7 +55,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     car.year.toString(),
   ].join(", ");
 
-  const imageUrl = car.images?.[0] || "https://www.carkharedo.com/og-image-default.jpg"; // Default OG image
+  // Ensure image URL is absolute. If stored as relative path, prepend baseUrl
+  const rawImage = car.images?.[0] || "/og-image-default.jpg";
+  const imageUrl = rawImage.startsWith("http") ? rawImage : `${baseUrl}${rawImage.startsWith("/") ? rawImage : `/${rawImage}`}`;
 
   return {
     title: carTitle,
@@ -60,7 +66,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: carTitle,
       description: carDescription,
-      url: `https://www.carkharedo.com/cars/${car._id}`,
+      url: `${baseUrl}/cars/${car._id}`,
       images: [
         {
           url: imageUrl,
@@ -81,7 +87,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       creator: "@carkharedo",
     },
     alternates: {
-      canonical: `https://www.carkharedo.com/cars/${car._id}`,
+      canonical: `${baseUrl}/cars/${car._id}`,
     },
   };
 }
@@ -102,19 +108,19 @@ export default async function CarDetailPage({ params }: Props) {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://www.carkharedo.com",
+        item: baseUrl,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Used Cars",
-        item: "https://www.carkharedo.com/cars",
+        item: `${baseUrl}/cars`,
       },
       {
         "@type": "ListItem",
         position: 3,
         name: car.title,
-        item: `https://www.carkharedo.com/cars/${car._id}`,
+        item: `${baseUrl}/cars/${car._id}`,
       },
     ],
   };
@@ -124,7 +130,7 @@ export default async function CarDetailPage({ params }: Props) {
     "@type": "Product",
     name: car.title,
     description: car.description || `Used ${car.brand} ${car.model} for sale in ${car.city}.`,
-    image: car.images?.[0] || "https://www.carkharedo.com/placeholder-car.svg",
+    image: car.images?.[0] ? (car.images[0].startsWith("http") ? car.images[0] : `${baseUrl}${car.images[0].startsWith("/") ? car.images[0] : `/${car.images[0]}`}`) : `${baseUrl}/placeholder-car.svg`,
     sku: car._id, // Using _id as SKU, if no specific SKU exists
     brand: {
       "@type": "Brand",
@@ -132,7 +138,7 @@ export default async function CarDetailPage({ params }: Props) {
     },
     offers: {
       "@type": "Offer",
-      url: `https://www.carkharedo.com/cars/${car._id}`,
+      url: `${baseUrl}/cars/${car._id}`,
       priceCurrency: "INR", // Assuming Indian Rupees
       price: car.price,
       itemCondition: "https://schema.org/UsedCondition",

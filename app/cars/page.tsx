@@ -20,6 +20,11 @@ import CarFilters from "@/components/CarFilters";
 import CarListGrid from "./CarListGrid";
 import { Metadata } from "next";
 
+// prefer NEXT_PUBLIC_SITE_URL, then VERCEL_URL during Vercel builds, then hardcoded fallback
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://www.carkharedo.com");
+
 export const metadata: Metadata = {
   title: "Used Cars for Sale - Browse Certified Pre-Owned Cars | carKharedo",
   description:
@@ -37,10 +42,10 @@ export const metadata: Metadata = {
     title: "Used Cars for Sale - Browse Certified Pre-Owned Cars | carKharedo",
     description:
       "Explore a wide selection of certified used cars for sale on carKharedo. Filter by city, budget, brand, fuel type, and more to find your perfect pre-owned vehicle.",
-    url: "https://www.carkharedo.com/cars",
+    url: `${baseUrl}/cars`,
     images: [
       {
-        url: "https://www.carkharedo.com/og-image-cars.jpg", // Specific OG image for cars listing
+        url: `${baseUrl}/og-image-cars.jpg`, // Specific OG image for cars listing
         width: 1200,
         height: 630,
         alt: "Used Cars for Sale on carKharedo",
@@ -51,10 +56,10 @@ export const metadata: Metadata = {
     title: "Used Cars for Sale - Browse Certified Pre-Owned Cars | carKharedo",
     description:
       "Explore a wide selection of certified used cars for sale on carKharedo. Filter by city, budget, brand, fuel type, and more to find your perfect pre-owned vehicle.",
-    images: ["https://www.carkharedo.com/twitter-image-cars.jpg"], // Specific Twitter image for cars listing
+    images: [`${baseUrl}/twitter-image-cars.jpg`], // Specific Twitter image for cars listing
   },
   alternates: {
-    canonical: "https://www.carkharedo.com/cars",
+    canonical: `${baseUrl}/cars`,
   },
 };
 
@@ -67,13 +72,13 @@ export default function CarsPage() {
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://www.carkharedo.com",
+        item: baseUrl,
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Used Cars",
-        item: "https://www.carkharedo.com/cars",
+        item: `${baseUrl}/cars`,
       },
     ],
   };

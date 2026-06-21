@@ -7,6 +7,9 @@ import CarModel from "@/models/Car";
 import {formatKilometers, formatPrice} from "@/lib/utils";
 import {Metadata} from "next";
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.carkharedo.com";
+
 export const metadata: Metadata = {
     title: "Buy & Sell Used Cars - India's Most Trusted Platform | carKharedo",
     description:
@@ -25,10 +28,10 @@ export const metadata: Metadata = {
         title: "Buy & Sell Used Cars - India's Most Trusted Platform | carKharedo",
         description:
             "India's most trusted platform for buying and selling used cars. Find the best deals on certified pre-owned cars in your city. 200+ quality checks, free RC transfer, 1-year warranty.",
-        url: "https://www.carkharedo.com",
+        url: baseUrl,
         images: [
             {
-                url: "https://www.carkharedo.com/og-image-home.jpg", // Specific OG image for home
+                url: `${baseUrl}/og-image-home.jpg`, // Specific OG image for home
                 width: 1200,
                 height: 630,
                 alt: "carKharedo - Buy & Sell Used Cars",
@@ -39,10 +42,10 @@ export const metadata: Metadata = {
         title: "Buy & Sell Used Cars - India's Most Trusted Platform | carKharedo",
         description:
             "India's most trusted platform for buying and selling used cars. Find the best deals on certified pre-owned cars in your city. 200+ quality checks, free RC transfer, 1-year warranty.",
-        images: ["https://www.carkharedo.com/twitter-image-home.jpg"], // Specific Twitter image for home
+        images: [`${baseUrl}/twitter-image-home.jpg`], // Specific Twitter image for home
     },
     alternates: {
-        canonical: "https://www.carkharedo.com",
+        canonical: baseUrl,
     },
 };
 
@@ -89,8 +92,8 @@ export default async function HomePage() {
         "@context": "https://schema.org",
         "@type": "Organization",
         name: "carKharedo",
-        url: "https://www.carkharedo.com",
-        logo: "https://www.carkharedo.com/logo.png", // Replace with your actual logo
+        url: baseUrl,
+        logo: `${baseUrl}/logo.png`, // Replace with your actual logo
         sameAs: [
             "https://www.facebook.com/carkharedo", // Replace with your social media links
             "https://twitter.com/carkharedo",
@@ -102,10 +105,10 @@ export default async function HomePage() {
         "@context": "https://schema.org",
         "@type": "WebSite",
         name: "carKharedo",
-        url: "https://www.carkharedo.com",
+        url: baseUrl,
         potentialAction: {
             "@type": "SearchAction",
-            target: "https://www.carkharedo.com/cars?search={search_term_string}",
+            target: `${baseUrl}/cars?search={search_term_string}`,
             "query-input": "required name=search_term_string",
         },
     };

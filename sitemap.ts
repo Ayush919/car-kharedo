@@ -3,7 +3,9 @@ import { connectDB } from "@/lib/mongodb";
 import Car from "@/models/Car";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.carkharedo.com";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://car-kharedo.vercel.app");
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
