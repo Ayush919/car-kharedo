@@ -10,16 +10,19 @@
  *   → Frontend fetches via GET /api/cars using Car.find()
  *   → Cars displayed on /cars page and homepage
  *
+ * The slug field is added for SEO-friendly URLs.
+ *
  * FIELDS:
  *   title, brand, model, year, price, city, fuelType, transmission,
  *   kilometers, ownership, registrationState, description, features[],
- *   images[], createdAt (auto), updatedAt (auto)
+ *   images[], createdAt (auto), updatedAt (auto), slug (new)
  */
 import mongoose, { Schema, models } from "mongoose";
 
 const CarSchema = new Schema(
   {
     title: { type: String, required: true },
+    slug: { type: String, required: true, unique: true, lowercase: true }, // Added slug field
     brand: { type: String, required: true, index: true },
     model: { type: String, required: true },
     year: { type: Number, required: true, index: true },

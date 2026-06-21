@@ -24,6 +24,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Car from "@/models/Car";
 
+// Helper function to generate a slug
+function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "") // Remove non-alphanumeric characters except spaces and hyphens
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/-+/g, "-") // Replace multiple hyphens with a single hyphen
+    .trim(); // Trim leading/trailing hyphens
+}
+
 export async function POST(req: NextRequest) {
   try {
     // Step 1: Connect to MongoDB
@@ -48,7 +58,19 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Step 4: Ensure features and images are arrays
+    // Step 4: Generate and ensure unique slug
+    let baseSlug = generateSlug(body.title);
+    let slug = baseSlug;
+    let counter = 0;
+
+    // Check for existing slug and append counter if necessary
+    while (await Car.findOne({ slug })) {
+      counter++;
+      slug = `${baseSlug}-${counter}`;
+    }
+    body.slug = slug; // Add the unique slug to the body
+
+    // Step 5: Ensure features and images are arrays
     if (body.features && typeof body.features === "string") {
       // Support comma-separated string input
       body.features = body.features.split(",").map((f: string) => f.trim()).filter(Boolean);
@@ -60,12 +82,12 @@ export async function POST(req: NextRequest) {
       body.images = [];
     }
 
-    // Step 5: Create car document in MongoDB "cars" collection
+    // Step 6: Create car document in MongoDB "cars" collection
     const car = await Car.create(body);
 
-    console.log(`[API] Car created: ${car.title} (ID: ${car._id})`);
+    console.log(`[API] Car created: ${car.title} (ID: ${car._id}, Slug: ${car.slug})`);
 
-    // Step 6: Return created car with 201 status
+    // Step 7: Return created car with 201 status
     return NextResponse.json(
       {
         success: true,

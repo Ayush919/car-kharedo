@@ -18,15 +18,72 @@
 import { Suspense } from "react";
 import CarFilters from "@/components/CarFilters";
 import CarListGrid from "./CarListGrid";
+import { Metadata } from "next";
 
-export const metadata = {
-  title: "Buy Used Cars - carKharedo",
-  description: "Browse certified pre-owned cars. Filter by city, budget, brand, and more.",
+export const metadata: Metadata = {
+  title: "Used Cars for Sale - Browse Certified Pre-Owned Cars | carKharedo",
+  description:
+    "Explore a wide selection of certified used cars for sale on carKharedo. Filter by city, budget, brand, fuel type, and more to find your perfect pre-owned vehicle.",
+  keywords: [
+    "used cars for sale",
+    "buy used cars",
+    "certified pre-owned cars",
+    "second hand cars",
+    "car listings",
+    "car marketplace",
+    "used car deals",
+  ],
+  openGraph: {
+    title: "Used Cars for Sale - Browse Certified Pre-Owned Cars | carKharedo",
+    description:
+      "Explore a wide selection of certified used cars for sale on carKharedo. Filter by city, budget, brand, fuel type, and more to find your perfect pre-owned vehicle.",
+    url: "https://www.carkharedo.com/cars",
+    images: [
+      {
+        url: "https://www.carkharedo.com/og-image-cars.jpg", // Specific OG image for cars listing
+        width: 1200,
+        height: 630,
+        alt: "Used Cars for Sale on carKharedo",
+      },
+    ],
+  },
+  twitter: {
+    title: "Used Cars for Sale - Browse Certified Pre-Owned Cars | carKharedo",
+    description:
+      "Explore a wide selection of certified used cars for sale on carKharedo. Filter by city, budget, brand, fuel type, and more to find your perfect pre-owned vehicle.",
+    images: ["https://www.carkharedo.com/twitter-image-cars.jpg"], // Specific Twitter image for cars listing
+  },
+  alternates: {
+    canonical: "https://www.carkharedo.com/cars",
+  },
 };
 
 export default function CarsPage() {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.carkharedo.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Used Cars",
+        item: "https://www.carkharedo.com/cars",
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="container-custom py-6">
         <div className="mb-4">
           <h1 className="text-2xl font-bold">Buy Used Cars</h1>

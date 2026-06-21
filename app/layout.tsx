@@ -11,10 +11,31 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "carKharedo - Buy & Sell Used Cars",
+  title: {
+    default: "carKharedo - Buy & Sell Used Cars",
+    template: "%s | carKharedo",
+  },
   description:
     "India's most trusted platform for buying and selling used cars. Find the best deals on certified pre-owned cars in your city.",
-  keywords: "used cars, buy cars, sell cars, second hand cars, certified cars",
+  keywords: [
+    "used cars",
+    "buy cars",
+    "sell cars",
+    "second hand cars",
+    "certified cars",
+    "car marketplace",
+    "pre-owned cars",
+    "car deals",
+  ],
+  openGraph: {
+    siteName: "carKharedo",
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@carkharedo", // Replace with your Twitter handle
+  },
 };
 
 export default function RootLayout({
